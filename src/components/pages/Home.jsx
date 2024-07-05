@@ -1,22 +1,26 @@
+import { FilesContext } from "../contexts/FilesContext";
 import FileCardList from "../molecules/FileCardList";
-import { Typography } from "@mui/material";
+import { useContext, useEffect } from "react";
 import Layout from "../templates/Layout";
 
 function Home() {
+  const { dbConnection, files, updateFiles, updateFolder } = useContext(FilesContext);
+
+  const loadFiles = async () => {
+    const result = await dbConnection.searchFiles("root");
+    updateFolder('root');
+    updateFiles(result);
+  };
+
+  useEffect(() => {
+    if (dbConnection?.db) {
+      loadFiles();
+    }
+  }, [dbConnection?.db]);
+
   return (
     <Layout>
-      <Typography>Home</Typography>
-      <FileCardList
-        files={"1"
-          .repeat(50)
-          .split("")
-          .map((_, index) => ({
-            id: index,
-            extension: "xlsm",
-            size: 1024,
-            name: "Trabalho de Português",
-          }))}
-      />
+      <FileCardList files={files} />
     </Layout>
   );
 }

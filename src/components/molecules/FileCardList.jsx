@@ -4,9 +4,9 @@ import Card from "../atoms/Card";
 
 function FileCardList({ files }) {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ display: "flex", justifyContent: 'center' }}>
       {files.map((file) => (
-        <Grid key={file.id} item>
+        <Grid key={file.name} item>
           <Card file={file} />
         </Grid>
       ))}
